@@ -14,8 +14,26 @@ export const Container = styled.main`
   background-size: cover;
   background-position-y: 50%;
   width: 100vw;
-  margin-left: -60px;
-  padding: 0 60px;
+  margin-left: -160px;
+  padding: 90px 160px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0) 20%,
+      rgba(255, 255, 255, 0) 80%,
+      rgba(255, 255, 255, 0.5) 100%
+    );
+  }
 `
 
 export const TextContainer = styled.div`
