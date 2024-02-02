@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const CartContainer = styled.div`
   display: flex;
@@ -65,11 +66,13 @@ export const Total = styled.p`
   font-weight: 700;
 `
 
-export const Confirm = styled.button`
+export const Confirm = styled(Link)`
   background: ${(props) => props.theme.colors.brand.yellow};
   color: ${(props) => props.theme.colors.base.white};
   font: ${(props) => props.theme.fonts.button.g};
+  text-decoration: none;
   text-transform: uppercase;
+  text-align: center;
   border: none;
   border-radius: 6px;
   padding: 12px 8px;
