@@ -30,6 +30,7 @@ interface CoffeesContextType {
   addCoffeeToCart: (coffee: CoffeeType) => void
   updateCoffeeQuantity: (coffeeName: string, quantity: number) => void
   removeCoffeeFromCart: (coffeeName: string) => void
+  clearCart: () => void
   isCoffeeInCart: (coffeeName: string) => boolean
 }
 
@@ -189,7 +190,13 @@ export default function CoffeesContextProvider(props: CoffeesProviderProps) {
     const updatedCoffees = coffeesInCart.filter(
       (coffee) => coffee.name !== coffeeName,
     )
+
+    updateCoffeeQuantity(coffeeName, 1)
     setCoffeesInCart(updatedCoffees)
+  }
+
+  function clearCart() {
+    setCoffeesInCart([])
   }
 
   function isCoffeeInCart(coffeeName: string) {
@@ -204,6 +211,7 @@ export default function CoffeesContextProvider(props: CoffeesProviderProps) {
         addCoffeeToCart,
         updateCoffeeQuantity,
         removeCoffeeFromCart,
+        clearCart,
         isCoffeeInCart,
       }}
     >

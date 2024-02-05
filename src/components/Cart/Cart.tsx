@@ -1,8 +1,9 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import SimplifiedCoffee from '../SimplifiedCoffee/SimplifiedCoffee.tsx'
 import formatCurrency from '../../utils/formatCurrency.ts'
 import { CoffeesContext } from '../../contexts/CoffeesContext.tsx'
+import { CheckoutContext } from '../../contexts/CheckoutContext.tsx'
 
 import {
   CartContainer,
@@ -18,7 +19,10 @@ import {
 } from './styles.ts'
 
 export default function Cart() {
-  const { coffeesInCart } = useContext(CoffeesContext)
+  const { coffeesInCart, clearCart } = useContext(CoffeesContext)
+  const { isAddressFilled } = useContext(CheckoutContext)
+
+  const [finishOrderDisabled, setFinishOrderDisabled] = useState(true)
 
   const total = coffeesInCart.reduce(
     (sum, coffee) => (sum += coffee.quantity * coffee.price),
@@ -26,6 +30,10 @@ export default function Cart() {
   )
   const fee = total * 0.05
   const totalWithFee = total + fee
+
+  useEffect(() => {
+    setFinishOrderDisabled(!total || !isAddressFilled())
+  }, [total, isAddressFilled])
 
   return (
     <CartContainer>
@@ -55,7 +63,13 @@ export default function Cart() {
           </Total>
         </TotalValues>
 
-        <Confirm to="/success">Finish order</Confirm>
+        <Confirm
+          to="/success"
+          disabled={finishOrderDisabled}
+          onClick={clearCart}
+        >
+          Finish order
+        </Confirm>
       </ContentContainer>
     </CartContainer>
   )

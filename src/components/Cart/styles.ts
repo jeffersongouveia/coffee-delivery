@@ -1,5 +1,9 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Link } from 'react-router-dom'
+
+interface ConfirmProps {
+  disabled?: boolean
+}
 
 export const CartContainer = styled.div`
   display: flex;
@@ -66,7 +70,7 @@ export const Total = styled.p`
   font-weight: 700;
 `
 
-export const Confirm = styled(Link)`
+export const Confirm = styled(Link)<ConfirmProps>`
   background: ${(props) => props.theme.colors.brand.yellow};
   color: ${(props) => props.theme.colors.base.white};
   font: ${(props) => props.theme.fonts.button.g};
@@ -81,4 +85,15 @@ export const Confirm = styled(Link)`
   &:hover {
     background: ${(props) => props.theme.colors.brand.yellowDark};
   }
+
+  ${(props) =>
+    props.disabled &&
+    css`
+      background: ${(props) => props.theme.colors.base.button};
+      pointer-events: none;
+
+      &:hover {
+        background: ${(props) => props.theme.colors.base.button};
+      }
+    `}
 `

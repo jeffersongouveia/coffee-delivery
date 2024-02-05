@@ -22,6 +22,7 @@ interface CheckoutContextType {
   updateAddress: (item: string, value: string | number) => void
   updatePaymentMethod: (paymentMethod: PaymentMethod) => void
   humanizePaymentMethod: (paymentMethod: PaymentMethod) => string
+  isAddressFilled: () => boolean
 }
 
 interface CheckoutProviderProps {
@@ -63,6 +64,15 @@ export default function CheckoutContextProvider(props: CheckoutProviderProps) {
     }
   }
 
+  function isAddressFilled() {
+    const optionalValues = ['complement']
+    const addressKeys = Object.keys(address).filter(
+      (i) => !optionalValues.includes(i),
+    ) as (keyof AddressType)[]
+
+    return addressKeys.every((key) => !!address[key])
+  }
+
   return (
     <CheckoutContext.Provider
       value={{
@@ -71,6 +81,7 @@ export default function CheckoutContextProvider(props: CheckoutProviderProps) {
         updateAddress,
         updatePaymentMethod,
         humanizePaymentMethod,
+        isAddressFilled,
       }}
     >
       {props.children}
