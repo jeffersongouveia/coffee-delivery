@@ -1,8 +1,9 @@
+import { useContext } from 'react'
 import { Trash } from '@phosphor-icons/react'
 
 import Counter from '../Counter/Counter.tsx'
 import formatCurrency from '../../utils/formatCurrency.ts'
-import { CoffeeType } from '../../contexts/CoffeesContext.tsx'
+import { CoffeesContext, CoffeeType } from '../../contexts/CoffeesContext.tsx'
 
 import {
   Container,
@@ -18,6 +19,8 @@ interface SimplifiedCoffeeProps {
 }
 
 export default function SimplifiedCoffee({ coffee }: SimplifiedCoffeeProps) {
+  const { removeCoffeeFromCart } = useContext(CoffeesContext)
+
   return (
     <Container>
       <Image src={coffee.image} alt="" />
@@ -27,7 +30,7 @@ export default function SimplifiedCoffee({ coffee }: SimplifiedCoffeeProps) {
 
         <Counter coffee={coffee} />
 
-        <Remove>
+        <Remove onClick={() => removeCoffeeFromCart(coffee.name)}>
           <Trash size={16} />
           Remove
         </Remove>
