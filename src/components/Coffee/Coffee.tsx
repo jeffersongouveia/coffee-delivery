@@ -15,24 +15,21 @@ import {
 import { defaultTheme } from '../../styles/themes.ts'
 
 import Counter from '../Counter/Counter.tsx'
-import formatCurrency from '../../utils/formatCurrency.ts'
 
-type Coffee = {
-  image: () => string
-  name: string
-  description: string
-  tags: string[]
-  price: number
-}
+import { CoffeesContext, CoffeeType } from '../../contexts/CoffeesContext.tsx'
+import formatCurrency from '../../utils/formatCurrency.ts'
+import { useContext } from 'react'
 
 interface CoffeeProps {
-  coffee: Coffee
+  coffee: CoffeeType
 }
 
 export default function Coffee({ coffee }: CoffeeProps) {
+  const { addCoffeeToCart } = useContext(CoffeesContext)
+
   return (
     <Container>
-      <Picture src={coffee.image()} alt="" />
+      <Picture src={coffee.image} alt="" />
 
       <Tags>
         {coffee.tags.map((tag) => (
@@ -49,9 +46,9 @@ export default function Coffee({ coffee }: CoffeeProps) {
           R$ <Value>{formatCurrency(coffee.price)}</Value>
         </Price>
 
-        <Counter />
+        <Counter coffee={coffee} />
 
-        <AddToCart>
+        <AddToCart onClick={() => addCoffeeToCart(coffee)}>
           <ShoppingCart
             size={22}
             color={defaultTheme.colors.base.card}

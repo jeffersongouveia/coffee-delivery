@@ -34,7 +34,23 @@ export const BrowseShoppingCart = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
+  position: relative;
   border-radius: 6px;
   padding: 8px;
   background: ${(props) => props.theme.colors.brand.yellowLight};
+`
+
+export const CartCount = styled.span`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: ${(props) => props.theme.colors.brand.yellowDark};
+  font: ${(props) => props.theme.fonts.text.s};
+  color: ${(props) => props.theme.colors.base.white};
 `
