@@ -1,4 +1,8 @@
+import { useContext } from 'react'
 import { CurrencyDollar, MapPin, Timer } from '@phosphor-icons/react'
+
+import { defaultTheme } from '../../styles/themes.ts'
+import { CheckoutContext } from '../../contexts/CheckoutContext.tsx'
 
 import {
   Container,
@@ -13,9 +17,11 @@ import {
 } from './styles.ts'
 
 import success from '../../assets/success.svg'
-import { defaultTheme } from '../../styles/themes.ts'
 
 export default function Success() {
+  const { address, paymentMethod, humanizePaymentMethod } =
+    useContext(CheckoutContext)
+
   return (
     <Container>
       <Summary>
@@ -35,9 +41,12 @@ export default function Success() {
               </Icon>
 
               <p>
-                Delivery in <span>Rua João Daniel Martinelli, 102</span>
+                Delivery in{' '}
+                <span>
+                  {address.address}, {address.number}
+                </span>
                 <br />
-                {'Farrapos - Porto Alegre, RS'}
+                {address.city} - {address.state}
               </p>
             </SummaryItem>
 
@@ -64,7 +73,7 @@ export default function Success() {
               <p>
                 Payment on delivery
                 <br />
-                <span>Credit Card</span>
+                <span>{humanizePaymentMethod(paymentMethod)}</span>
               </p>
             </SummaryItem>
           </OrderSummary>

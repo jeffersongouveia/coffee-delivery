@@ -1,4 +1,11 @@
+import { useContext } from 'react'
 import { Bank, CreditCard, CurrencyDollar, Money } from '@phosphor-icons/react'
+
+import { defaultTheme } from '../../styles/themes.ts'
+import {
+  CheckoutContext,
+  PaymentMethod,
+} from '../../contexts/CheckoutContext.tsx'
 
 import {
   Container,
@@ -8,9 +15,14 @@ import {
   PaymentHeader,
   PaymentHeaderContainer,
 } from './styles.ts'
-import { defaultTheme } from '../../styles/themes.ts'
 
 export default function Payment() {
+  const { paymentMethod, updatePaymentMethod } = useContext(CheckoutContext)
+
+  function handlePaymentMethodChange(selectedPaymentMethod: PaymentMethod) {
+    updatePaymentMethod(selectedPaymentMethod)
+  }
+
   return (
     <Container>
       <PaymentContainer>
@@ -24,17 +36,26 @@ export default function Payment() {
         </PaymentHeaderContainer>
 
         <Options>
-          <OptionCard selected>
+          <OptionCard
+            selected={paymentMethod === PaymentMethod.CREDIT_CARD}
+            onClick={() => handlePaymentMethodChange(PaymentMethod.CREDIT_CARD)}
+          >
             <CreditCard size={16} color={defaultTheme.colors.brand.purple} />
             <p>Credit Card</p>
           </OptionCard>
 
-          <OptionCard>
+          <OptionCard
+            selected={paymentMethod === PaymentMethod.DEBIT_CARD}
+            onClick={() => handlePaymentMethodChange(PaymentMethod.DEBIT_CARD)}
+          >
             <Bank size={16} color={defaultTheme.colors.brand.purple} />
             <p>Debit Card</p>
           </OptionCard>
 
-          <OptionCard>
+          <OptionCard
+            selected={paymentMethod === PaymentMethod.MONEY}
+            onClick={() => handlePaymentMethodChange(PaymentMethod.MONEY)}
+          >
             <Money size={16} color={defaultTheme.colors.brand.purple} />
             <p>Money</p>
           </OptionCard>
