@@ -24,7 +24,7 @@ export default function Counter({ coffee }: CounterProps) {
   }
 
   return (
-    <Container enable={enableCounter}>
+    <Container enabled={enableCounter.toString()}>
       <Action onClick={() => handleUpdateQuantity(-1)}>
         <Minus />
       </Action>

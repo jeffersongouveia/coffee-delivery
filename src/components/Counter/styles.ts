@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 
 interface CounterProps {
-  enable: boolean
+  enabled: string
 }
 
 export const Container = styled.div<CounterProps>`
@@ -18,28 +18,25 @@ export const Container = styled.div<CounterProps>`
   opacity: 0.5;
 
   ${(props) =>
-    !props.enable &&
-    css`
-      &:hover p {
-        visibility: visible;
-      }
-    `}
+    props.enabled === 'true'
+      ? css`
+          opacity: 1;
 
-  ${(props) =>
-    props.enable &&
-    css`
-      opacity: 1;
+          button {
+            cursor: pointer;
+            pointer-events: all;
+            opacity: 1;
+          }
 
-      button {
-        cursor: pointer;
-        pointer-events: all;
-        opacity: 1;
-      }
-
-      p {
-        visibility: hidden;
-      }
-    `}
+          p {
+            visibility: hidden;
+          }
+        `
+      : css`
+          &:hover p {
+            visibility: visible;
+          }
+        `}
 `
 
 export const Quantity = styled.span`
