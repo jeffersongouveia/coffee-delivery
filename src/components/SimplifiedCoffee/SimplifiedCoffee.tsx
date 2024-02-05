@@ -2,6 +2,7 @@ import { Trash } from '@phosphor-icons/react'
 
 import Counter from '../Counter/Counter.tsx'
 import formatCurrency from '../../utils/formatCurrency.ts'
+import { CoffeeType } from '../../contexts/CoffeesContext.tsx'
 
 import {
   Container,
@@ -13,11 +14,7 @@ import {
 } from './styles.ts'
 
 interface SimplifiedCoffeeProps {
-  coffee: {
-    name: string
-    image: string
-    price: number
-  }
+  coffee: CoffeeType
 }
 
 export default function SimplifiedCoffee({ coffee }: SimplifiedCoffeeProps) {
@@ -28,7 +25,7 @@ export default function SimplifiedCoffee({ coffee }: SimplifiedCoffeeProps) {
       <CenterContainer>
         <Name>{coffee.name}</Name>
 
-        <Counter />
+        <Counter coffee={coffee} />
 
         <Remove>
           <Trash size={16} />
