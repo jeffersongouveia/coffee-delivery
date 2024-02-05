@@ -29,6 +29,7 @@ interface CoffeesContextType {
   coffeesInCart: CoffeeType[]
   addCoffeeToCart: (coffee: CoffeeType) => void
   updateCoffeeQuantity: (coffeeName: string, quantity: number) => void
+  isCoffeeInCart: (coffeeName: string) => boolean
 }
 
 interface CoffeesProviderProps {
@@ -165,31 +166,36 @@ const allCoffees: CoffeeType[] = [
 ]
 
 export default function CoffeesContextProvider(props: CoffeesProviderProps) {
-  const [coffees, setCoffees] = useState<CoffeeType[]>([])
+  const [coffeesInCart, setCoffeesInCart] = useState<CoffeeType[]>([])
 
   function addCoffeeToCart(coffee: CoffeeType) {
-    setCoffees([...coffees, coffee])
+    setCoffeesInCart([...coffeesInCart, coffee])
   }
 
   function updateCoffeeQuantity(coffeeName: string, quantity: number) {
-    const updatedCoffees = coffees.map((coffee) => {
-      if (coffee.name === coffeeName) {
+    const updatedCoffees = coffeesInCart.map((coffee) => {
+      if (coffee.name === coffeeName && quantity > 0) {
         coffee.quantity = quantity
       }
 
       return coffee
     })
 
-    setCoffees(updatedCoffees)
+    setCoffeesInCart(updatedCoffees)
+  }
+
+  function isCoffeeInCart(coffeeName: string) {
+    return coffeesInCart.some((coffee) => coffee.name === coffeeName)
   }
 
   return (
     <CoffeesContext.Provider
       value={{
         allCoffees,
-        coffeesInCart: coffees,
+        coffeesInCart,
         addCoffeeToCart,
         updateCoffeeQuantity,
+        isCoffeeInCart,
       }}
     >
       {props.children}

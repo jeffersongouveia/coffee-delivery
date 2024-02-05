@@ -1,15 +1,22 @@
 import { Minus, Plus } from '@phosphor-icons/react'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { CoffeesContext, CoffeeType } from '../../contexts/CoffeesContext.tsx'
-import { Action, Container, Quantity } from './styles.ts'
+import { Action, Container, Quantity, Tooltip } from './styles.ts'
 
 interface CounterProps {
   coffee: CoffeeType
 }
 
 export default function Counter({ coffee }: CounterProps) {
-  const { updateCoffeeQuantity } = useContext(CoffeesContext)
+  const { coffeesInCart, updateCoffeeQuantity, isCoffeeInCart } =
+    useContext(CoffeesContext)
+
+  const [enableCounter, setEnableCounter] = useState(false)
+
+  useEffect(() => {
+    setEnableCounter(isCoffeeInCart(coffee.name))
+  }, [coffee.name, coffeesInCart, isCoffeeInCart])
 
   function handleUpdateQuantity(increaseValue: number) {
     const quantity = coffee.quantity + increaseValue
@@ -17,7 +24,7 @@ export default function Counter({ coffee }: CounterProps) {
   }
 
   return (
-    <Container>
+    <Container enable={enableCounter}>
       <Action onClick={() => handleUpdateQuantity(-1)}>
         <Minus />
       </Action>
@@ -27,6 +34,8 @@ export default function Counter({ coffee }: CounterProps) {
       <Action onClick={() => handleUpdateQuantity(1)}>
         <Plus />
       </Action>
+
+      <Tooltip>You must add it to cart first</Tooltip>
     </Container>
   )
 }
