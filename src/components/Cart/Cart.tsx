@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 
 import SimplifiedCoffee from '../SimplifiedCoffee/SimplifiedCoffee.tsx'
+import formatCurrency from '../../utils/formatCurrency.ts'
 import { CoffeesContext } from '../../contexts/CoffeesContext.tsx'
 
 import {
@@ -19,6 +20,13 @@ import {
 export default function Cart() {
   const { coffeesInCart } = useContext(CoffeesContext)
 
+  const total = coffeesInCart.reduce(
+    (sum, coffee) => (sum += coffee.quantity * coffee.price),
+    0,
+  )
+  const fee = total * 0.05
+  const totalWithFee = total + fee
+
   return (
     <CartContainer>
       <Title>Selected Coffees</Title>
@@ -35,15 +43,15 @@ export default function Cart() {
 
         <TotalValues>
           <TotalItem>
-            Coffees total <span>R$ 12,90</span>
+            Coffees total <span>R$ {formatCurrency(total)}</span>
           </TotalItem>
 
           <TotalItem>
-            Delivery fee <span>R$ 5,00</span>
+            Delivery fee <span>R$ {formatCurrency(fee)}</span>
           </TotalItem>
 
           <Total>
-            Total <span>R$ 17,90</span>
+            Total <span>R$ {formatCurrency(totalWithFee)}</span>
           </Total>
         </TotalValues>
 
